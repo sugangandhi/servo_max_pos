@@ -120,8 +120,6 @@ if __name__ == "__main__":
                 b = get_current_posj()   
             else:
                 param = get_last_alarm().param
-                clientsocket, address = s.accept()
-                clientsocket.send(bytes(str(param), "utf-8"))
                 pos1 = list(get_current_posj())
                 if p2[0] < 0:
                     if pos1[0] < 0:
