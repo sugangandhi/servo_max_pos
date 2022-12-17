@@ -15,6 +15,5 @@ def user_input():
         continue
  return arr 
 user_input()   
-if err_fn() is True:
-    user_input()        
+print(input(file2.param))        
 
