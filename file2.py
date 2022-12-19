@@ -3,9 +3,10 @@
 
 import rospy
 import os
+import json
 import sys
-from file1 import user_input
-from file3 import kinematics
+from file1 import *
+from file3 import *
 
 sys.dont_write_bytecode = True
 sys.path.append( os.path.abspath(os.path.join(os.path.dirname(__file__),"../../../../common/imp")) ) # get import path : DSR_ROBOT.py 
@@ -21,12 +22,12 @@ def shutdown():
     pub_stop.publish(stop_mode=STOP_TYPE_QUICK)
     return 0
 
-def file1_output():
+def user_output():
     input = user_input()
     return input
 
 def file3_output():
-    input = kinematics()
+    input = iv_kinematics()
     return input
 
 if __name__ == "__main__":
@@ -117,11 +118,13 @@ if __name__ == "__main__":
             if a != b:
                 a = get_current_posj()
                 movej(p2, vel=60, acc=30, mod = DR_MV_MOD_REL)
-                b = get_current_posj()   
+                b = get_current_posj()  
+                
             else:
                 param = get_last_alarm().param
-                clientsocket, address = s.accept()
-                clientsocket.send(bytes(str(param), "utf-8"))
+                json_object = json.dumps(param, indent=4)
+                with open("sample.json", "w") as outfile:
+                    outfile.write(json_object)
                 pos1 = list(get_current_posj())
                 if p2[0] < 0:
                     if pos1[0] < 0:
@@ -222,3 +225,5 @@ if __name__ == "__main__":
                     item = max[5] % pos1[5]
                     pos.append(item)
                 movej(pos, vel=60, acc=30, mod = DR_MV_MOD_REL)
+                # print(get_current_posj())
+                # print(get_current_posx()) 
